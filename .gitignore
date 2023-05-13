@@ -1,0 +1,58 @@
+# Ignore bin and obj directories
+**/bin/
+**/obj/
+
+# Ignore node_modules directory
+**/node_modules/
+**/dist/
+
+# Ignore compiled files for C#, F#, Rust and Typescript
+**/*.exe
+**/*.dll
+**/*.pdb
+**/*.exe.config
+**/*.log
+**/*.msi
+**/*.ipa
+**/*.apk
+**/*.o
+**/*.so
+**/*.dylib
+**/*.dSYM/
+**/*.js.map
+**/*.jsbundle
+**/*.jsx
+**/*.tsx
+**/*.d.ts
+**/*.map
+**/*.vue.js
+**/*.vue.js.map
+**/*.vue.ssr.js
+**/*.vue.ssr.js.map
+
+# Ignore Visual Studio Code files
+.vscode/
+*.code-workspace
+
+# Ignore Rust build artifacts
+target/
+Cargo.lock
+
+# Ignore dependencies for Rust projects
+**/Cargo.toml
+**/Cargo.lock
+**/.cargo/
+
+# Ignore dependencies for Typescript projects
+**/yarn.lock
+**/package-lock.json
+
+# Ignore NuGet packages for C# projects
+**/*.nuget.props
+**/*.nuget.targets
+**/packages/
+
+# Ignore JetBrains Rider files
+.idea/
+*.sln.iml
+*.csproj.iml
