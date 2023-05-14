@@ -22,7 +22,8 @@ const inventories =
     .map(calculateCalories)
     .sort(descending)
 
+const topThree = inventories.slice(0, 3).reduce((sum, current) => { return sum + current }, 0)
 console.log(`Largest: ${inventories[0]}`)
-console.log(`Top three: ${inventories.slice(0, 3).reduce((sum, current) => { return sum + current }, 0)}`)
+console.log(`Top three: ${topThree}`)
 console.log(`Elapsed time: ${stopwatch().toFixed(3)} milliseconds`)
 process.exit(0)
