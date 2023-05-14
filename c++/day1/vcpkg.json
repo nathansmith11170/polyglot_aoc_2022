@@ -1,0 +1,9 @@
+{
+  "name" : "day1",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "7f52deab66689f912da6d04de105c457d8ba671e",
+  "dependencies" : [ {
+    "name" : "gtest",
+    "version>=" : "1.13.0"
+  } ]
+}

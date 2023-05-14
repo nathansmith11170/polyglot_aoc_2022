@@ -22,7 +22,7 @@ fn main() {
         Err(_) => panic!("Could not read the file at {0}", args[1])
     };
 
-    let mut inventories = lines.split("\n\n")
+    let mut inventories: Vec<i64> = lines.split("\n\n")
         .map(sum_strings)
         .collect::<Vec<i64>>();
     inventories.sort();
