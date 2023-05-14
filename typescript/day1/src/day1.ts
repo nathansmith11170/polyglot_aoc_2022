@@ -1,47 +1,20 @@
 import * as fs from 'fs'
-import * as process from "process";
-import * as constants from "constants";
+import * as process from 'process'
+import { startStopwatch, descending, calculateCalories, isNotOnlyWhitespaceOrEmpty } from './core_function'
 
-export function calculateCalories (inventory: string): number {
-  return inventory.split('\n')
-    .map(str => str.trim())
-    .filter(isNotOnlyWhitespaceOrEmpty)
-    .map(parseIntRadix10)
-    .reduce((sum, current) => {
-      return sum + current
-    }, 0)
-}
-
-export function descending (a: number, b: number): number {
-  return b - a
-}
-
-function isNotOnlyWhitespaceOrEmpty (str: string): boolean {
-  if (str.trim().length === 0) return false
-  else return str.length !== 0
-}
-
-function parseIntRadix10 (str: string): number {
-  return parseInt(str, 10)
-}
-
-function startStopwatch (): () => number {
-  const startTime = performance.now()
-  return () => performance.now() - startTime
-}
-
-const args = process.argv;
-if (args.length != 3) {
-  console.log(`Expected 3 arguments, received ${args.length} - ${args}`)
+const args = process.argv
+if (args.length !== 3) {
+  console.log(`Expected 3 arguments, received ${args.length}`)
   process.exit(1)
 }
-fs.access(args[1], constants.F_OK, (err) => {
+
+fs.access(args[2], fs.constants.F_OK, (err) => {
   console.log(err)
   process.exit(1)
 })
 
-const stop = startStopwatch()
-const input = fs.readFileSync('src/input.txt', 'utf-8')
+const stopwatch = startStopwatch()
+const input = fs.readFileSync(args[2], 'utf-8')
 const inventories =
   input
     .split('\n\n')
@@ -51,5 +24,5 @@ const inventories =
 
 console.log(`Largest: ${inventories[0]}`)
 console.log(`Top three: ${inventories.slice(0, 3).reduce((sum, current) => { return sum + current }, 0)}`)
-console.log(`Elapsed time: ${stop().toFixed(3)} milliseconds`)
+console.log(`Elapsed time: ${stopwatch().toFixed(3)} milliseconds`)
 process.exit(0)

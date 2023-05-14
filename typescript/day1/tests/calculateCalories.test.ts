@@ -1,4 +1,4 @@
-import { calculateCalories, descending } from '../src/day1'
+import { calculateCalories, descending } from '../src/core_function'
 
 describe('calculateCalories', () => {
   test('given newline delimited string returns sum', () => {
