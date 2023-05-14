@@ -51,10 +51,10 @@ int main (int argc, char *argv[]) {
     }
 
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
     std::cout << "The largest inventory is: " << inventories[0] << std::endl;
     std::cout << "The sum of top three is: " << top_three << std::endl;
-    std::cout << "Calculated in: " << duration.count() << "ms" << std::endl;
+    std::cout << "Calculated in: " << duration.count() / 1000000.0 << "ms" << std::endl;
 
     return 0;
 }
