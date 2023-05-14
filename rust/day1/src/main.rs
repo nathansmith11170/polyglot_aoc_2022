@@ -15,13 +15,13 @@ fn main() {
         panic!("Expected 1 argument, received {0}", args.len());
     }
 
+    let now = SystemTime::now();
     let read_attempt = fs::read_to_string(&args[1]);
     let lines = match read_attempt {
         Ok(content) => content,
         Err(_) => panic!("Could not read the file at {0}", args[1])
     };
 
-    let now = SystemTime::now();
     let mut inventories = lines.split("\n\n")
         .map(sum_strings)
         .collect::<Vec<i64>>();
