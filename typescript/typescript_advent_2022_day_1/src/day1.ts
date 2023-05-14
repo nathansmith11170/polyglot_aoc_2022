@@ -1,4 +1,6 @@
 import * as fs from 'fs'
+import * as process from "process";
+import * as constants from "constants";
 
 export function calculateCalories (inventory: string): number {
   return inventory.split('\n')
@@ -28,10 +30,18 @@ function startStopwatch (): () => number {
   return () => performance.now() - startTime
 }
 
-const input = fs.readFileSync('src/input.txt', 'utf-8')
+const args = process.argv;
+if (args.length != 3) {
+  console.log(`Expected 3 arguments, received ${args.length} - ${args}`)
+  process.exit(1)
+}
+fs.access(args[1], constants.F_OK, (err) => {
+  console.log(err)
+  process.exit(1)
+})
 
 const stop = startStopwatch()
-// Code to be timed goes here
+const input = fs.readFileSync('src/input.txt', 'utf-8')
 const inventories =
   input
     .split('\n\n')
@@ -42,3 +52,4 @@ const inventories =
 console.log(`Largest: ${inventories[0]}`)
 console.log(`Top three: ${inventories.slice(0, 3).reduce((sum, current) => { return sum + current }, 0)}`)
 console.log(`Elapsed time: ${stop().toFixed(3)} milliseconds`)
+process.exit(0)
