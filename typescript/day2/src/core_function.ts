@@ -3,57 +3,69 @@ export function startStopwatch (): () => number {
   return () => performance.now() - startTime
 }
 
-function resolveRound (oppAction: number, myAction: number): number {
+enum Action {
+  Rock = 1,
+  Paper = 2,
+  Scissors = 3
+}
+
+enum Outcome {
+  Loss = 0,
+  Draw = 3,
+  Win = 6
+}
+
+function resolveRound (oppAction: Action, myAction: Action): Outcome {
   switch (oppAction) {
-    case 1:
+    case Action.Rock:
       switch (myAction) {
-        case 1: return 3
-        case 2: return 6
-        case 3: return 0
-        default: throw Error(`Unrecognized Action ${myAction}`)
+        case Action.Rock: return Outcome.Draw
+        case Action.Paper: return Outcome.Win
+        case Action.Scissors: return Outcome.Loss
+        default: throw Error(`Invalid Action enumeration value: ${myAction as number}`)
       }
-    case 2:
+    case Action.Paper:
       switch (myAction) {
-        case 1: return 0
-        case 2: return 3
-        case 3: return 6
-        default: throw Error(`Unrecognized Action ${myAction}`)
+        case Action.Rock: return Outcome.Loss
+        case Action.Paper: return Outcome.Draw
+        case Action.Scissors: return Outcome.Win
+        default: throw Error(`Invalid Action enumeration value: ${myAction as number}`)
       }
     case 3:
       switch (myAction) {
-        case 1: return 6
-        case 2: return 0
-        case 3: return 3
-        default: throw Error(`Unrecognized Action ${myAction}`)
+        case Action.Rock: return Outcome.Win
+        case Action.Paper: return Outcome.Loss
+        case Action.Scissors: return Outcome.Draw
+        default: throw Error(`Invalid Action enumeration value: ${myAction as number}`)
       }
-    default: throw Error(`Unrecognized Action ${oppAction}`)
+    default: throw Error(`Invalid Action enumeration value: ${oppAction as number}`)
   }
 }
 
-function findAction (action: number, outcome: number): number {
+function findAction (action: Action, outcome: Outcome): Action {
   switch (action) {
-    case 1:
+    case Action.Rock:
       switch (outcome) {
-        case 0: return 3
-        case 3: return 1
-        case 6: return 2
-        default: throw Error(`Unrecognized Outcome ${outcome}`)
+        case Outcome.Loss: return Action.Scissors
+        case Outcome.Draw: return Action.Rock
+        case Outcome.Win: return Action.Paper
+        default: throw Error(`Unrecognized Outcome enumeration value: ${outcome as number}`)
       }
-    case 2:
+    case Action.Paper:
       switch (outcome) {
-        case 0: return 1
-        case 3: return 2
-        case 6: return 3
-        default: throw Error(`Unrecognized Outcome ${outcome}`)
+        case Outcome.Loss: return Action.Rock
+        case Outcome.Draw: return Action.Paper
+        case Outcome.Win: return Action.Scissors
+        default: throw Error(`Unrecognized Outcome enumeration value: ${outcome as number}`)
       }
-    case 3:
+    case Action.Scissors:
       switch (outcome) {
-        case 0: return 2
-        case 3: return 3
-        case 6: return 1
-        default: throw Error(`Unrecognized Outcome ${outcome}`)
+        case Outcome.Loss: return Action.Paper
+        case Outcome.Draw: return Action.Scissors
+        case Outcome.Win: return Action.Rock
+        default: throw Error(`Unrecognized Outcome enumeration value: ${outcome as number}`)
       }
-    default: throw Error(`Unrecognized Action ${action}`)
+    default: throw Error(`Unrecognized Action enumeration value: ${action as number}`)
   }
 }
 
