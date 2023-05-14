@@ -69,25 +69,30 @@ function findAction (action: Action, outcome: Outcome): Action {
   }
 }
 
-export function interpretLineAsTwoActions (line: string): number {
-  const choices = line.split(' ')
+function oppActionFromLine (choice: string): Action {
   let oppAction: number
-  if (choices[0] === 'A') {
-    oppAction = 1
-  } else if (choices[0] === 'B') {
-    oppAction = 2
-  } else if (choices[0] === 'C') {
-    oppAction = 3
+  if (choice === 'A') {
+    oppAction = Action.Rock
+  } else if (choice === 'B') {
+    oppAction = Action.Paper
+  } else if (choice === 'C') {
+    oppAction = Action.Scissors
   } else {
     throw Error('Invalid character for opponent action')
   }
+  return oppAction
+}
+
+export function interpretLineAsTwoActions (line: string): number {
+  const choices = line.split(' ')
+  const oppAction = oppActionFromLine(choices[0])
   let myAction: number
   if (choices[1] === 'X') {
-    myAction = 1
+    myAction = Action.Rock
   } else if (choices[1] === 'Y') {
-    myAction = 2
+    myAction = Action.Paper
   } else if (choices[1] === 'Z') {
-    myAction = 3
+    myAction = Action.Scissors
   } else {
     throw Error('Invalid character for opponent action')
   }
@@ -96,23 +101,14 @@ export function interpretLineAsTwoActions (line: string): number {
 
 export function interpretLineAsActionAndOutcome (line: string): number {
   const choices = line.split(' ')
-  let oppAction: number
-  if (choices[0] === 'A') {
-    oppAction = 1
-  } else if (choices[0] === 'B') {
-    oppAction = 2
-  } else if (choices[0] === 'C') {
-    oppAction = 3
-  } else {
-    throw Error('Invalid character for opponent action')
-  }
+  const oppAction = oppActionFromLine(choices[0])
   let outcome: number
   if (choices[1] === 'X') {
-    outcome = 0
+    outcome = Outcome.Loss
   } else if (choices[1] === 'Y') {
-    outcome = 3
+    outcome = Outcome.Draw
   } else if (choices[1] === 'Z') {
-    outcome = 6
+    outcome = Outcome.Win
   } else {
     throw Error('Invalid character for opponent action')
   }
