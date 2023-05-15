@@ -3,6 +3,7 @@ project(day2)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(HEADER_FILES include/core_func.h)
 

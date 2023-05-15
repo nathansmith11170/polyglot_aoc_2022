@@ -1,7 +1,7 @@
+#include <stdexcept>
 #include <string>
 #include <vector>
 #include <cstring>
-#include <exception>
 
 #ifndef DAY2_CORE_FUNC_H
 #define DAY2_CORE_FUNC_H

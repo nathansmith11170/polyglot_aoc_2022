@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.Contracts;
 
 namespace Day1;
 
@@ -24,11 +23,12 @@ internal static class Program
         var calorieCounts = File.ReadAllText(args[0])
             .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)
             .Select(SumStrings)
-            .OrderDescending();
+            .OrderDescending()
+            .Take(3);
         timer.Stop();
         
         Console.WriteLine($"Highest: {calorieCounts.First()}");
-        Console.WriteLine($"Top Three: {calorieCounts.Take(3).Sum()}");
+        Console.WriteLine($"Top Three: {calorieCounts.Sum()}");
         Console.WriteLine($"Completed in {timer.Elapsed.TotalMilliseconds}ms");
     }
 }
