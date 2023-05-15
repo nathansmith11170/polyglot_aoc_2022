@@ -29,7 +29,7 @@
 **/*.vue.js.map
 **/*.vue.ssr.js
 **/*.vue.ssr.js.map
-c++/day1/cmake-build-*
+c++/**/cmake-build-*
 
 
 # Ignore Visual Studio Code files

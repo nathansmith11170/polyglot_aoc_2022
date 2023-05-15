@@ -17,7 +17,7 @@ static std::vector<std::string> split (std::string buffer, const char* delimiter
     while (delim_index != std::string::npos) {
         delim_index = buffer.find(delimiter_string, start);
         token = buffer.substr(start, delim_index - start);
-        tokens.push_back(token);
+        if (!token.empty()) tokens.push_back(token);
         start = delim_index + strlen(delimiter_string);
     }
 
