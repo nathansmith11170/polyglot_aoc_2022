@@ -8,16 +8,7 @@ describe('calculateCalories', () => {
     expect(calculateCalories('\n1\n')).toBe(1)
   })
   test('given working example returns sum', () => {
-    expect(calculateCalories(`
-    8424
-    4933
-    2202
-    8871
-    9421
-    1163
-    10520
-    2527
-`)).toBe(48061)
+    expect(calculateCalories('\n    8424\n    4933\n    2202\n    8871\n    9421\n    1163\n    10520\n    2527\n')).toBe(48061)
   })
 })
 
