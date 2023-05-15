@@ -24,11 +24,10 @@ internal static class Program
         var calorieCounts = File.ReadAllText(args[0])
             .Split("\n\n", StringSplitOptions.RemoveEmptyEntries)
             .Select(SumStrings)
-            .OrderDescending()
-            .ToList();
+            .OrderDescending();
         timer.Stop();
         
-        Console.WriteLine($"Highest: {calorieCounts[0]}");
+        Console.WriteLine($"Highest: {calorieCounts.First()}");
         Console.WriteLine($"Top Three: {calorieCounts.Take(3).Sum()}");
         Console.WriteLine($"Completed in {timer.Elapsed.TotalMilliseconds}ms");
     }
