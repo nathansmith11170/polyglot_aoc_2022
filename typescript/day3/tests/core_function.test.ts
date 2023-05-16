@@ -1,4 +1,4 @@
-import {findDuplicateCharacters, splitStringInTwo, translateCharacterToPriority} from '../src/core_function'
+import { findDuplicateCharacters, splitStringInTwo, translateCharacterToPriority } from '../src/core_function'
 
 describe('splitStringInTwo', () => {
   test('splits string with even length', () => {

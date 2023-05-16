@@ -1,5 +1,11 @@
 import * as fs from 'fs'
-import { findDuplicateCharacters, splitStringInTwo, translateCharacterToPriority } from './core_function'
+import {
+  chunkArray,
+  findCommonCharacter,
+  findDuplicateCharacters,
+  splitStringInTwo,
+  translateCharacterToPriority
+} from './core_function'
 function startStopwatch (): () => number {
   const startTime = performance.now()
   return () => performance.now() - startTime
@@ -17,12 +23,18 @@ fs.access(args[2], fs.constants.F_OK, (err) => {
 })
 
 const stopwatch = startStopwatch()
-const sum = fs.readFileSync(args[2], 'utf-8').split('\n')
-  .map(splitStringInTwo)
+const contents = fs.readFileSync(args[2], 'utf-8').split('\n')
+const sumDuplicates = contents.map(splitStringInTwo)
   .flatMap(findDuplicateCharacters)
   .map(translateCharacterToPriority)
   .reduce((sum, current) => { return sum + current }, 0)
 
-console.log(sum)
+const sumBadges = chunkArray(contents, 3)
+  .map(findCommonCharacter)
+  .map(translateCharacterToPriority)
+  .reduce((sum, current) => { return sum + current }, 0)
+
+console.log(`Sum of duplicate items: ${sumDuplicates}`)
+console.log(`Sum of badges in trios: ${sumBadges}`)
 console.log(`Elapsed time: ${stopwatch().toFixed(3)} milliseconds`)
 process.exit(0)
