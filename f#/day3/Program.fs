@@ -1,6 +1,15 @@
-﻿open System.Diagnostics
+﻿open System.Collections.Generic
+open System.Diagnostics
 open System.IO
-open FSharp.Item
+
+let alphabet =
+    let result = SortedDictionary<char, int>()
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()
+    |> Array.iteri (fun i c -> result.Add(c, i))
+    result
+
+let matchCharacterToItem (character:char) =
+    alphabet[character] + 1
 
 let getPriorityOfDuplicateIn (sack: string) =
     let half = sack.Length/2
@@ -24,7 +33,7 @@ let main argv =
     let timer = Stopwatch.StartNew()
 
     let input =
-        File.ReadAllText(argv[0]).Split "\r"
+        File.ReadAllText(argv[0]).Split("\n")
         |> Array.map (fun line -> line.Trim())
         
     let sumOfDuplicates =
