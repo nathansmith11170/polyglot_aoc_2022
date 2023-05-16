@@ -6,7 +6,10 @@
         "strict": true,
         "noEmitOnError": true,
         "noImplicitAny": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true
     },
     "include": [
         "src/**/*",
