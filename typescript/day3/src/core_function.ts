@@ -1,5 +1,8 @@
 export function splitStringInTwo (str: string): string[] {
-  return [str.substring(0, str.length / 2), str.substring(str.length / 2, str.length)]
+  return [
+    str.substring(0, str.length / 2),
+    str.substring(str.length / 2, str.length)
+  ]
 }
 
 export function findDuplicateCharacters (strings: string[]): string[] {

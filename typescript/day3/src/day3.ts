@@ -6,6 +6,7 @@ import {
   splitStringInTwo,
   translateCharacterToPriority
 } from './core_function'
+
 function startStopwatch (): () => number {
   const startTime = performance.now()
   return () => performance.now() - startTime
@@ -24,15 +25,20 @@ fs.access(args[2], fs.constants.F_OK, (err) => {
 
 const stopwatch = startStopwatch()
 const contents = fs.readFileSync(args[2], 'utf-8').split('\n')
-const sumDuplicates = contents.map(splitStringInTwo)
+const sumDuplicates = contents
+  .map(splitStringInTwo)
   .flatMap(findDuplicateCharacters)
   .map(translateCharacterToPriority)
-  .reduce((sum, current) => { return sum + current }, 0)
+  .reduce((sum, current) => {
+    return sum + current
+  }, 0)
 
 const sumBadges = chunkArray(contents, 3)
   .map(findCommonCharacter)
   .map(translateCharacterToPriority)
-  .reduce((sum, current) => { return sum + current }, 0)
+  .reduce((sum, current) => {
+    return sum + current
+  }, 0)
 
 console.log(`Sum of duplicate items: ${sumDuplicates}`)
 console.log(`Sum of badges in trios: ${sumBadges}`)

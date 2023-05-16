@@ -17,5 +17,5 @@
     ],
     "rules": {
     },
-    "ignorePatterns": [ "dist/**", "resources/**" ]
+    "ignorePatterns": [ "dist/**", "resources/**", "*config*" ]
 }
