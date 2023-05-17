@@ -1,29 +1,35 @@
-import * as fs from 'fs'
-import * as process from 'process'
-import { startStopwatch, descending, calculateCalories, isNotOnlyWhitespaceOrEmpty } from './core_function'
+import { calculateCalories, descending, isNotOnlyWhitespaceOrEmpty } from './core_function.ts'
+import { exists } from 'fs/exists.ts'
 
-const args = process.argv
-if (args.length !== 3) {
+const args = Deno.args
+if (args.length !== 1) {
   console.log(`Expected 3 arguments, received ${args.length}`)
-  process.exit(1)
+  Deno.exit(1)
 }
 
-fs.access(args[2], fs.constants.F_OK, (err) => {
-  console.log(err)
-  process.exit(1)
-})
+if (!exists(args[0])) {
+  console.log(`File does not exist ${args[0]}`)
+  Deno.exit(1)
+}
 
-const stopwatch = startStopwatch()
-const input = fs.readFileSync(args[2], 'utf-8')
-const inventories =
-  input
-    .split('\n\n')
-    .filter(isNotOnlyWhitespaceOrEmpty)
-    .map(calculateCalories)
-    .sort(descending)
+const start = performance.now()
+const decoder = new TextDecoder('utf-8')
+const input = decoder.decode(Deno.readFileSync(args[0]))
+const inventories = input
+  .split('\n\n')
+  .filter(isNotOnlyWhitespaceOrEmpty)
+  .map(calculateCalories)
+  .sort(descending)
 
-const topThree = inventories.slice(0, 3).reduce((sum, current) => { return sum + current }, 0)
+const topThree = inventories.slice(0, 3).reduce(
+  (sum: number, current: number) => {
+    return sum + current
+  },
+  0,
+)
 console.log(`Largest: ${inventories[0]}`)
 console.log(`Top three: ${topThree}`)
-console.log(`Elapsed time: ${stopwatch().toFixed(3)} milliseconds`)
-process.exit(0)
+console.log(
+  `Elapsed time: ${(performance.now() - start).toPrecision(5)} milliseconds`,
+)
+Deno.exit(0)
