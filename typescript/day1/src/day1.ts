@@ -21,12 +21,10 @@ const inventories = input
   .map(calculateCalories)
   .sort(descending)
 
-const topThree = inventories.slice(0, 3).reduce(
-  (sum: number, current: number) => {
+const topThree = inventories.slice(0, 3)
+  .reduce((sum: number, current: number) => {
     return sum + current
-  },
-  0,
-)
+  }, 0)
 console.log(`Largest: ${inventories[0]}`)
 console.log(`Top three: ${topThree}`)
 console.log(
