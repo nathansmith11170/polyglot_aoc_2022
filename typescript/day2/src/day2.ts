@@ -1,31 +1,36 @@
-import * as fs from 'fs'
-import { startStopwatch, interpretLineAsTwoActions, interpretLineAsActionAndOutcome } from './core_function'
+import { interpretLineAsActionAndOutcome, interpretLineAsTwoActions } from './core_function.ts'
+import { exists } from 'fs/exists.ts'
 
-const args = process.argv
-if (args.length !== 3) {
+const args = Deno.args
+if (args.length !== 1) {
   console.log(`Expected 3 arguments, received ${args.length}`)
-  process.exit(1)
+  Deno.exit(1)
 }
 
-fs.access(args[2], fs.constants.F_OK, (err) => {
-  console.log(err)
-  process.exit(1)
-})
+if (!exists(args[0])) {
+  console.log(`The file ${args[0]} does not exist`)
+  Deno.exit(1)
+}
 
-const stopwatch = startStopwatch()
-const input = fs.readFileSync(args[2], 'utf-8')
+const start = performance.now()
+const decoder = new TextDecoder('utf-8')
+const input = decoder.decode(Deno.readFileSync(args[0]))
 
 const scoreIfLinesAreActions = input.split('\n')
-  .filter(str => str.length > 0)
+  .filter((str) => str.length > 0)
   .map(interpretLineAsTwoActions)
-  .reduce((sum, current) => { return sum + current }, 0)
+  .reduce((sum, current) => {
+    return sum + current
+  }, 0)
 
 const scoreIfLinesAreActionAndOutcome = input.split('\n')
-  .filter(str => str.length > 0)
+  .filter((str) => str.length > 0)
   .map(interpretLineAsActionAndOutcome)
-  .reduce((sum, current) => { return sum + current }, 0)
+  .reduce((sum, current) => {
+    return sum + current
+  }, 0)
 
 console.log(`Score if each line is two actions: ${scoreIfLinesAreActions}`)
 console.log(`Score if each line is an action and outcome: ${scoreIfLinesAreActionAndOutcome}`)
-console.log(`Elapsed time: ${stopwatch().toFixed(3)} milliseconds`)
-process.exit(0)
+console.log(`Elapsed time: ${(performance.now() - start).toPrecision(5)} milliseconds`)
+Deno.exit(0)
