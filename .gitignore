@@ -2,9 +2,8 @@
 **/bin/
 **/obj/
 
-# Ignore node_modules directory
-**/node_modules/
-**/dist/
+# Ignore deno.lock
+**/deno.lock
 
 # Ignore compiled files for C#, F#, Rust and Typescript
 **/*.exe
