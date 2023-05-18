@@ -1,28 +1,29 @@
-import { findDuplicateCharacters, splitStringInTwo, translateCharacterToPriority } from '../src/core_function'
+import { findDuplicateCharacters, splitStringInTwo, translateCharacterToPriority } from '../src/core_function.ts'
+import { assertEquals } from 'testing/asserts.ts'
 
-describe('splitStringInTwo', () => {
-  test('splits string with even length', () => {
-    expect(splitStringInTwo('aaaabbbb')).toStrictEqual(['aaaa', 'bbbb'])
-  })
+Deno.test('splitStringInTwo, splits string with even length', () => {
+  const result = splitStringInTwo('aaaabbbb')
+  assertEquals(result, ['aaaa', 'bbbb'])
 })
 
-describe('findDuplicateCharacters', () => {
-  test('returns empty array when no duplicates', () => {
-    expect(findDuplicateCharacters(['aaaa', 'bbbb'])).toStrictEqual([])
-  })
-  test('returns array of duplicate characters', () => {
-    expect(findDuplicateCharacters(['AnDhYu', 'AkDtYu'])).toStrictEqual(['A', 'D', 'Y', 'u'])
-  })
+Deno.test('findDuplicateCharacters, returns empty array when no duplicates', () => {
+  const result = findDuplicateCharacters(['aaaa', 'bbbb'])
+  assertEquals(result, [])
+})
+Deno.test('findDuplicateCharacters, returns array of duplicate characters', () => {
+  const result = findDuplicateCharacters(['AnDhYu', 'AkDtYu'])
+  assertEquals(result, ['A', 'D', 'Y', 'u'])
 })
 
-describe('translateCharacterToPriority', () => {
-  test('p is 16', () => {
-    expect(translateCharacterToPriority('p')).toBe(16)
-  })
-  test('P is 42', () => {
-    expect(translateCharacterToPriority('P')).toBe(42)
-  })
-  test('L is 38', () => {
-    expect(translateCharacterToPriority('L')).toBe(38)
-  })
+Deno.test('translateCharacterToPriority, p is 16', () => {
+  const result = translateCharacterToPriority('p')
+  assertEquals(result, 16)
+})
+Deno.test('translateCharacterToPriority, P is 42', () => {
+  const result = translateCharacterToPriority('P')
+  assertEquals(result, 42)
+})
+Deno.test('translateCharactertoPriority, L is 38', () => {
+  const result = translateCharacterToPriority('L')
+  assertEquals(result, 38)
 })

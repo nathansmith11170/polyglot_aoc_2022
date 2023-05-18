@@ -1,35 +1,31 @@
-import * as fs from 'fs'
 import {
   chunkArray,
   findCommonCharacter,
   findDuplicateCharacters,
   splitStringInTwo,
-  translateCharacterToPriority
-} from './core_function'
+  translateCharacterToPriority,
+} from './core_function.ts'
+import { exists } from 'fs/exists.ts'
 
-function startStopwatch (): () => number {
-  const startTime = performance.now()
-  return () => performance.now() - startTime
+const args = Deno.args
+if (args.length !== 1) {
+  console.log(`Expected 1 argument, received ${args.length}`)
+  Deno.exit(1)
 }
 
-const args = process.argv
-if (args.length !== 3) {
-  console.log(`Expected 3 arguments, received ${args.length}`)
-  process.exit(1)
+if (!exists(args[0])) {
+  console.log(`File does not exist ${args[0]}`)
+  Deno.exit(1)
 }
 
-fs.access(args[2], fs.constants.F_OK, (err) => {
-  console.log(err)
-  process.exit(1)
-})
-
-const stopwatch = startStopwatch()
-const contents = fs.readFileSync(args[2], 'utf-8').split('\n')
+const stopwatch = performance.now()
+const decoder = new TextDecoder('utf-8')
+const contents = decoder.decode(Deno.readFileSync(args[0])).split('\n')
 const sumDuplicates = contents
   .map(splitStringInTwo)
   .flatMap(findDuplicateCharacters)
   .map(translateCharacterToPriority)
-  .reduce((sum, current) => {
+  .reduce((sum: number, current: number) => {
     return sum + current
   }, 0)
 
@@ -42,5 +38,5 @@ const sumBadges = chunkArray(contents, 3)
 
 console.log(`Sum of duplicate items: ${sumDuplicates}`)
 console.log(`Sum of badges in trios: ${sumBadges}`)
-console.log(`Elapsed time: ${stopwatch().toFixed(3)} milliseconds`)
-process.exit(0)
+console.log(`Elapsed time: ${(performance.now() - stopwatch).toPrecision(5)} milliseconds`)
+Deno.exit(0)

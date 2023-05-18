@@ -1,11 +1,11 @@
-export function splitStringInTwo (str: string): string[] {
+export function splitStringInTwo(str: string): string[] {
   return [
     str.substring(0, str.length / 2),
-    str.substring(str.length / 2, str.length)
+    str.substring(str.length / 2, str.length),
   ]
 }
 
-export function findDuplicateCharacters (strings: string[]): string[] {
+export function findDuplicateCharacters(strings: string[]): string[] {
   const result: string[] = []
   for (const c1 of strings[0]) {
     for (const c2 of strings[1]) {
@@ -17,12 +17,12 @@ export function findDuplicateCharacters (strings: string[]): string[] {
   return result
 }
 
-export function translateCharacterToPriority (char: string): number {
+export function translateCharacterToPriority(char: string): number {
   const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   return alphabet.indexOf(char) + 1
 }
 
-export function chunkArray (arr: any[], width: number): any[][] {
+export function chunkArray(arr: any[], width: number): any[][] {
   const result: any[][] = []
 
   for (let i = 0; i < arr.length; i += width) {
@@ -33,7 +33,7 @@ export function chunkArray (arr: any[], width: number): any[][] {
   return result
 }
 
-export function findCommonCharacter (arr: string[]): string {
+export function findCommonCharacter(arr: string[]): string {
   for (const c of arr[0]) {
     let inAll = true
     for (const str of arr) {
