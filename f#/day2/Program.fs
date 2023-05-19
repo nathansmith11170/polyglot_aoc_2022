@@ -12,7 +12,7 @@ type Outcome =
     | Win = 6
     
 let scoreRoundFromPlays enemyPlay myPlay =
-    let scoreRound outcome= int myPlay + int outcome
+    let scoreRound outcome = int myPlay + int outcome
     
     let resolveRound =
         let outcomeOfRockVersusMyPlay =
