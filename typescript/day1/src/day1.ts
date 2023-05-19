@@ -27,7 +27,5 @@ const topThree = inventories.slice(0, 3)
   }, 0)
 console.log(`Largest: ${inventories[0]}`)
 console.log(`Top three: ${topThree}`)
-console.log(
-  `Elapsed time: ${(performance.now() - start).toPrecision(5)} milliseconds`,
-)
+console.log(`Elapsed time: ${(performance.now() - start).toPrecision(5)} milliseconds`)
 Deno.exit(0)
