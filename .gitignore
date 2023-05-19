@@ -30,6 +30,8 @@
 **/*.vue.ssr.js.map
 c++/**/cmake-build-*
 c/**/cmake-build-*
+c/**/build
+c/**/.cache
 zig/**/zig-cache
 
 # Ignore Visual Studio Code files
