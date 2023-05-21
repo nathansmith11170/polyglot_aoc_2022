@@ -4,10 +4,12 @@ import {
   reverseRows,
   transposeMatrix,
   removeWhitespaceAndEmpty,
-  executeMoveOneCrateAtATime,
-  executeMoveOneStackAtAtime,
   removeBrackets
-} from './core_function.ts'
+} from './read_source.ts'
+import {
+  executeMoveOneCrateAtATime,
+  executeMoveOneStackAtAtime
+} from './perform_move.ts'
 
 const args = Deno.args
 if (args.length !== 1) {
