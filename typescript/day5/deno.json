@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true
+  },
+  "lint": {
+    "include": ["src/"],
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"]
+    }
+  },
+  "fmt": {
+    "useTabs": false,
+    "indentWidth": 2,
+    "lineWidth": 120,
+    "singleQuote": true,
+    "proseWrap": "preserve",
+    "include": ["src/", "tests/"],
+    "semiColons": false
+  },
+  "tasks": {
+    "run": "deno run --allow-read --allow-hrtime src/day5.ts resources/input.txt"
+  },
+  "imports": {
+    "testing/": "https://deno.land/std@0.187.0/testing/",
+    "fs/": "https://deno.land/std@0.187.0/fs/"
+  }
+}
