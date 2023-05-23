@@ -30,7 +30,7 @@ fn main() {
     println!("The largest inventory is: {0}", inventories[0]);
     println!("The sum of top three is: {0}", inventories[0..3].iter().sum::<i64>());
     match now.elapsed() {
-        Ok(elapsed) => println!("Time elapsed: {:.5}ms", (elapsed.as_nanos() as f64) / 1000000.0),
+        Ok(elapsed) => println!("Time elapsed: {:.5} microseconds", (elapsed.as_micros())),
         Err(e) => panic!("Some error occurred: {}", e)
     }
 }

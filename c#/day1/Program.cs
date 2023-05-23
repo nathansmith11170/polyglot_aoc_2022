@@ -6,10 +6,7 @@ internal static class Program
 {
     private static int SumStrings(this string strings)
     {
-        return strings
-            .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-            .Select(int.Parse)
-            .Sum();
+        return strings.Split('\n', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).Sum();
     }
 
     private static void Main(string[] args)
@@ -26,7 +23,7 @@ internal static class Program
             .OrderDescending()
             .Take(3);
         timer.Stop();
-        
+
         Console.WriteLine($"Highest: {calorieCounts.First()}");
         Console.WriteLine($"Top Three: {calorieCounts.Sum()}");
         Console.WriteLine($"Completed in {timer.Elapsed.TotalMilliseconds}ms");
