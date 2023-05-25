@@ -5,6 +5,15 @@
         <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>x64</PlatformTarget>
+      <Optimize>true</Optimize>
+    </PropertyGroup>
+
     <ItemGroup>
         <Content Include="input.txt" />
         <Compile Include="Program.fs" />
