@@ -20,34 +20,46 @@ func assignPriorities(shared []rune) int {
 	return sum
 }
 
+func findDuplicateItems(text string) []rune {
+	var shared []rune
+	first_half := text[:len(text)/2]
+	second_half := text[len(text)/2:]
+	for _, char := range first_half {
+		if strings.ContainsRune(second_half, char) && !slices.Contains(shared, char) {
+			shared = append(shared, char)
+		}
+	}
+	return shared
+}
+
+func findSharedBadge(lines []string) []rune {
+	var badge []rune
+	for _, char := range lines[0] {
+		if strings.ContainsRune(lines[1], char) && strings.ContainsRune(lines[2], char) {
+			badge = append(badge, char)
+			break
+		}
+	}
+	return badge
+}
+
 func calculateSumOfSharedItemPriorities(scanner *bufio.Scanner) (int, int) {
 	sum_of_priorities := 0
 	sum_of_badges := 0
 	var three_lines []string
 	for scanner.Scan() {
-		var shared []rune
-		first_half := scanner.Text()[:len(scanner.Text())/2]
-		second_half := scanner.Text()[len(scanner.Text())/2 : len(scanner.Text())]
-		for _, char := range first_half {
-			if strings.ContainsRune(second_half, char) && !slices.Contains(shared, char) {
-				shared = append(shared, char)
-			}
-		}
-		sum_of_priorities += assignPriorities(shared)
+
+		sum_of_priorities += assignPriorities(findDuplicateItems(scanner.Text()))
 
 		three_lines = append(three_lines, scanner.Text())
+
 		if len(three_lines) == 3 {
-			var badge []rune
-			for _, char := range three_lines[0] {
-				if strings.ContainsRune(three_lines[1], char) && strings.ContainsRune(three_lines[2], char) {
-					badge = append(badge, char)
-					sum_of_badges += assignPriorities(badge)
-					break
-				}
-			}
+			sum_of_badges += assignPriorities(findSharedBadge(three_lines))
+
 			three_lines = slices.Delete(three_lines, 0, len(three_lines))
 		}
 	}
+
 	return sum_of_priorities, sum_of_badges
 }
 
