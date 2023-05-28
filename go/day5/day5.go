@@ -9,98 +9,11 @@ import (
 	"time"
 )
 
-func reverse[T any](slice []T) []T {
-	reversed := make([]T, len(slice))
-	for i, j := 0, len(slice)-1; i < len(slice); i, j = i+1, j-1 {
-		reversed[i] = slice[j]
-	}
-	return reversed
-}
-
-func readStacks(scanner *bufio.Scanner) string {
-	var builder strings.Builder
-	for scanner.Scan() {
-		if strings.Trim(scanner.Text(), " \n\r\t") == "" {
-			break
-		}
-
-		builder.WriteString(scanner.Text())
-		builder.WriteString("\n")
-	}
-	return builder.String()
-}
-
-func filterNonEmpty(lines []string) []string {
-	filtered := make([]string, 0, len(lines))
-	for _, s := range lines {
-		if s != "" {
-			filtered = append(filtered, s)
-		}
-	}
-	return filtered
-}
-
-func parseLinesToArrays(lines []string) [][]string {
-	stacks := make([][]string, 0)
-	window_size := 4
-	for i, line := range lines {
-		stacks = append(stacks, make([]string, 0))
-
-		for j := 0; j <= len(line); j += window_size {
-			stacks[i] = append(stacks[i], line[j:j+window_size-1])
-		}
-	}
-	return stacks
-}
-
-func transposeStringMatrix(matrix [][]string) [][]string {
-	cols := len(matrix)
-	rows := len(matrix[0])
-
-	transposed_stack := make([][]string, cols)
-	for i := range transposed_stack {
-		transposed_stack[i] = make([]string, rows)
-	}
-
-	for i := 0; i < rows; i++ {
-		for j := 0; j < cols; j++ {
-			transposed_stack[j][i] = matrix[i][j]
-		}
-	}
-	return transposed_stack
-}
-
-func reverseRows(matrix [][]string) [][]string {
-	for i, row := range matrix {
-		matrix[i] = reverse(row)
-	}
-	return matrix
-}
-
-func removeNonAlpha(matrix [][]string) [][]string {
-	filtered_matrix := make([][]string, 0, len(matrix))
-	for i, row := range matrix {
-		filtered_matrix = append(filtered_matrix, make([]string, 0, len(row)))
-		for _, str := range row {
-			str = strings.ReplaceAll(str, "[", "")
-			str = strings.ReplaceAll(str, "]", "")
-			str = strings.ReplaceAll(str, " ", "")
-			if strings.TrimSpace(str) != "" {
-				filtered_matrix[i] = append(filtered_matrix[i], str)
-			}
-		}
-	}
-	return filtered_matrix
-}
-
-func parseStacks(stacks string) [][]string {
-	stacks_by_line := strings.Split(stacks, "\n")
-	stacks_by_line = filterNonEmpty(stacks_by_line)
-	stacks_matrix := parseLinesToArrays(stacks_by_line)
-	stacks_matrix = transposeStringMatrix(stacks_matrix)
-	stacks_matrix = reverseRows(stacks_matrix)
-	stacks_matrix = removeNonAlpha(stacks_matrix)
-	return stacks_matrix
+func performMove9001(stack [][]string, quantity int, source int, dest int) [][]string {
+	slice := stack[source][len(stack[source])-quantity : len(stack[source])]
+	stack[dest] = append(stack[dest], slice...)
+	stack[source] = stack[source][:len(stack[source])-quantity]
+	return stack
 }
 
 func performMove9000(stack [][]string, quantity int, source int, dest int) [][]string {
@@ -109,13 +22,6 @@ func performMove9000(stack [][]string, quantity int, source int, dest int) [][]s
 		stack[dest] = append(stack[dest], item)
 		stack[source] = stack[source][:len(stack[source])-1]
 	}
-	return stack
-}
-
-func performMove9001(stack [][]string, quantity int, source int, dest int) [][]string {
-	slice := stack[source][len(stack[source])-quantity : len(stack[source])]
-	stack[dest] = append(stack[dest], slice...)
-	stack[source] = stack[source][:len(stack[source])-quantity]
 	return stack
 }
 
@@ -163,6 +69,100 @@ func performMoves(stack [][]string, scanner *bufio.Scanner) (string, string) {
 		top_of_stack_9000.WriteString(stack_9000[i][len(stack_9000[i])-1])
 	}
 	return top_of_stack_9000.String(), top_of_stack_9001.String()
+}
+
+func removeNonAlpha(matrix [][]string) [][]string {
+	filtered_matrix := make([][]string, 0, len(matrix))
+	for i, row := range matrix {
+		filtered_matrix = append(filtered_matrix, make([]string, 0, len(row)))
+		for _, str := range row {
+			str = strings.ReplaceAll(str, "[", "")
+			str = strings.ReplaceAll(str, "]", "")
+			str = strings.ReplaceAll(str, " ", "")
+			if strings.TrimSpace(str) != "" {
+				filtered_matrix[i] = append(filtered_matrix[i], str)
+			}
+		}
+	}
+	return filtered_matrix
+}
+
+func reverse[T any](slice []T) []T {
+	reversed := make([]T, len(slice))
+	for i, j := 0, len(slice)-1; i < len(slice); i, j = i+1, j-1 {
+		reversed[i] = slice[j]
+	}
+	return reversed
+}
+
+func reverseRows(matrix [][]string) [][]string {
+	for i, row := range matrix {
+		matrix[i] = reverse(row)
+	}
+	return matrix
+}
+
+func transposeStringMatrix(matrix [][]string) [][]string {
+	cols := len(matrix)
+	rows := len(matrix[0])
+
+	transposed_stack := make([][]string, cols)
+	for i := range transposed_stack {
+		transposed_stack[i] = make([]string, rows)
+	}
+
+	for i := 0; i < rows; i++ {
+		for j := 0; j < cols; j++ {
+			transposed_stack[j][i] = matrix[i][j]
+		}
+	}
+	return transposed_stack
+}
+
+func parseLinesToArrays(lines []string) [][]string {
+	stacks := make([][]string, 0)
+	window_size := 4
+	for i, line := range lines {
+		stacks = append(stacks, make([]string, 0))
+
+		for j := 0; j <= len(line); j += window_size {
+			stacks[i] = append(stacks[i], line[j:j+window_size-1])
+		}
+	}
+	return stacks
+}
+
+func filterNonEmpty(lines []string) []string {
+	filtered := make([]string, 0, len(lines))
+	for _, s := range lines {
+		if s != "" {
+			filtered = append(filtered, s)
+		}
+	}
+	return filtered
+}
+
+func parseStacks(stacks string) [][]string {
+	stacks_by_line := strings.Split(stacks, "\n")
+	stacks_by_line = filterNonEmpty(stacks_by_line)
+	stacks_matrix := parseLinesToArrays(stacks_by_line)
+	stacks_matrix = transposeStringMatrix(stacks_matrix)
+	stacks_matrix = reverseRows(stacks_matrix)
+	stacks_matrix = removeNonAlpha(stacks_matrix)
+	return stacks_matrix
+}
+
+func readStacks(scanner *bufio.Scanner) string {
+	var builder strings.Builder
+	for scanner.Scan() {
+		if strings.Trim(scanner.Text(), " \n\r\t") == "" {
+			break
+		}
+
+		builder.WriteString(scanner.Text())
+		builder.WriteString("\n")
+	}
+	return builder.String()
 }
 
 func main() {
