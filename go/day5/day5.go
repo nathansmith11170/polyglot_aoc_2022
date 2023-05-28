@@ -17,7 +17,7 @@ func reverse[T any](slice []T) []T {
 	return reversed
 }
 
-func readStacks(scanner *bufio.Scanner) [][]string {
+func readStacks(scanner *bufio.Scanner) string {
 	var builder strings.Builder
 	for scanner.Scan() {
 		if strings.Trim(scanner.Text(), " \n\r\t") == "" {
@@ -27,28 +27,35 @@ func readStacks(scanner *bufio.Scanner) [][]string {
 		builder.WriteString(scanner.Text())
 		builder.WriteString("\n")
 	}
+	return builder.String()
+}
 
-	stacks_text := strings.Split(builder.String(), "\n")
-	filtered := make([]string, 0, len(stacks_text))
-	for _, s := range stacks_text {
+func filterNonEmpty(lines []string) []string {
+	filtered := make([]string, 0, len(lines))
+	for _, s := range lines {
 		if s != "" {
 			filtered = append(filtered, s)
 		}
 	}
-	stacks_text = filtered
+	return filtered
+}
 
-	stack := make([][]string, 0)
+func parseLinesToArrays(lines []string) [][]string {
+	stacks := make([][]string, 0)
 	window_size := 4
-	for i, line := range stacks_text {
-		stack = append(stack, make([]string, 0))
+	for i, line := range lines {
+		stacks = append(stacks, make([]string, 0))
 
 		for j := 0; j <= len(line); j += window_size {
-			stack[i] = append(stack[i], line[j:j+window_size-1])
+			stacks[i] = append(stacks[i], line[j:j+window_size-1])
 		}
 	}
+	return stacks
+}
 
-	cols := len(stack)
-	rows := len(stack[0])
+func transposeStringMatrix(matrix [][]string) [][]string {
+	cols := len(matrix)
+	rows := len(matrix[0])
 
 	transposed_stack := make([][]string, cols)
 	for i := range transposed_stack {
@@ -57,28 +64,43 @@ func readStacks(scanner *bufio.Scanner) [][]string {
 
 	for i := 0; i < rows; i++ {
 		for j := 0; j < cols; j++ {
-			transposed_stack[j][i] = stack[i][j]
+			transposed_stack[j][i] = matrix[i][j]
 		}
 	}
+	return transposed_stack
+}
 
-	for i, row := range transposed_stack {
-		transposed_stack[i] = reverse(row)
+func reverseRows(matrix [][]string) [][]string {
+	for i, row := range matrix {
+		matrix[i] = reverse(row)
 	}
+	return matrix
+}
 
-	for i, row := range transposed_stack {
-		filtered = make([]string, 0, len(row))
+func removeNonAlpha(matrix [][]string) [][]string {
+	filtered_matrix := make([][]string, 0, len(matrix))
+	for i, row := range matrix {
+		filtered_matrix = append(filtered_matrix, make([]string, 0, len(row)))
 		for _, str := range row {
 			str = strings.ReplaceAll(str, "[", "")
 			str = strings.ReplaceAll(str, "]", "")
 			str = strings.ReplaceAll(str, " ", "")
 			if strings.TrimSpace(str) != "" {
-				filtered = append(filtered, str)
+				filtered_matrix[i] = append(filtered_matrix[i], str)
 			}
 		}
-		transposed_stack[i] = filtered
 	}
+	return filtered_matrix
+}
 
-	return transposed_stack
+func parseStacks(stacks string) [][]string {
+	stacks_by_line := strings.Split(stacks, "\n")
+	stacks_by_line = filterNonEmpty(stacks_by_line)
+	stacks_matrix := parseLinesToArrays(stacks_by_line)
+	stacks_matrix = transposeStringMatrix(stacks_matrix)
+	stacks_matrix = reverseRows(stacks_matrix)
+	stacks_matrix = removeNonAlpha(stacks_matrix)
+	return stacks_matrix
 }
 
 func performMove9000(stack [][]string, quantity int, source int, dest int) [][]string {
@@ -159,7 +181,9 @@ func main() {
 	start := time.Now()
 	scanner := bufio.NewScanner(input_file)
 
-	stack := readStacks(scanner)
+	stacks_string := readStacks(scanner)
+
+	stack := parseStacks(stacks_string)
 	top_of_stack_9000, top_of_stack_9001 := performMoves(stack, scanner)
 
 	fmt.Println("The top of the stack after the mover 9000 is: ", top_of_stack_9000)
