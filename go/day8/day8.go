@@ -8,6 +8,55 @@ import (
 	"time"
 )
 
+func scenicScore(matrix [][]int, row int, col int) int {
+	north, east, south, west := 0, 0, 0, 0
+
+	for i := col - 1; i >= 0; i-- {
+		west++
+		if matrix[row][i] >= matrix[row][col] {
+			break
+		}
+	}
+
+	for i := col + 1; i < len(matrix[row]); i++ {
+		east++
+		if matrix[row][i] >= matrix[row][col] {
+			break
+		}
+	}
+
+	for j := row - 1; j >= 0; j-- {
+		north++
+		if matrix[j][col] >= matrix[row][col] {
+			break
+		}
+	}
+
+	for j := row + 1; j < len(matrix); j++ {
+		south++
+		if matrix[j][col] >= matrix[row][col] {
+			break
+		}
+	}
+
+	return north * east * south * west
+}
+
+func getMaxScenicScore(matrix [][]int) int {
+	max := 0
+
+	for i := 0; i < len(matrix); i++ {
+		for j := 0; j < len(matrix[i])-1; j++ {
+			score := scenicScore(matrix, i, j)
+			if score > max {
+				max = score
+			}
+		}
+	}
+
+	return max
+}
+
 func isVisible(matrix [][]int, row int, col int) bool {
 	north, east, south, west := true, true, true, true
 
@@ -87,9 +136,9 @@ func main() {
 
 	visible_trees := countVisibleTrees(matrix)
 
-	// TODO: Find max scenic score
+	max_scenic_score := getMaxScenicScore(matrix)
 
 	fmt.Printf("The number of visible trees is %d\n", visible_trees)
-	//fmt.Printf("The smallest directory which can be deleted to allow the update: %d\n", smallest_directory_large_enough)
+	fmt.Printf("The largest scenic score for any tree is %d\n", max_scenic_score)
 	fmt.Printf("Calculated in: %v\n", time.Since(start))
 }
