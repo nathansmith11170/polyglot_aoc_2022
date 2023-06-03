@@ -1,0 +1,2 @@
+[editor]
+workspace-lsp-roots = [ "typescript/day1", "typescript/day2", "typescript/day3", "typescript/day4", "typescript/day5", "typescript/day6", "typescript/day7", "typescript/day8" ]

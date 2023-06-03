@@ -42,19 +42,23 @@ func scenicScore(matrix [][]int, row int, col int) int {
 	return north * east * south * west
 }
 
-func getMaxScenicScore(matrix [][]int) int {
+func getMaxScenicScore(matrix [][]int) (int, int, int) {
 	max := 0
+	row := 0
+	col := 0
 
 	for i := 0; i < len(matrix); i++ {
 		for j := 0; j < len(matrix[i])-1; j++ {
 			score := scenicScore(matrix, i, j)
 			if score > max {
 				max = score
+				row = i
+				col = j
 			}
 		}
 	}
 
-	return max
+	return max, row, col
 }
 
 func isVisible(matrix [][]int, row int, col int) bool {
@@ -136,9 +140,9 @@ func main() {
 
 	visible_trees := countVisibleTrees(matrix)
 
-	max_scenic_score := getMaxScenicScore(matrix)
+	max_scenic_score, row, col := getMaxScenicScore(matrix)
 
 	fmt.Printf("The number of visible trees is %d\n", visible_trees)
-	fmt.Printf("The largest scenic score for any tree is %d\n", max_scenic_score)
+	fmt.Printf("The largest scenic score for any tree is %d at (%d, %d)\n", max_scenic_score, row, col)
 	fmt.Printf("Calculated in: %v\n", time.Since(start))
 }
