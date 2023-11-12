@@ -37,26 +37,14 @@ const sumOfSignal = recordsPart1
   }).reduce((sum, current) => sum + current, 0)
 console.log(`Sum of signal strengths at times of interest: ${sumOfSignal}`)
 
-const recordsPart2: boolean[] = []
-for (const record of recordsPart1) {
-  if (record[0] % 40 >= record[1] && record[0] % 40 <= record[1] + 2) {
-    recordsPart2.push(true)
-  } else {
-    recordsPart2.push(false)
-  }
-}
+const recordsPart2: boolean[] = recordsPart1.map((record) => record[0] % 40 >= record[1] && record[0] % 40 <= record[1] + 2)
 
-let display = ''
-for (const [index, pixel] of recordsPart2.entries()) {
-  if (pixel) {
-    display += '#'
-  } else {
-    display += '.'
-  }
-  if ((index + 1) % 40 === 0) {
-    display += '\n'
-  }
-}
-console.log(display)
+const display: string[] = recordsPart2.map(pixel => pixel ? '#' : '.')
+display.splice(40, 0, '\n')
+display.splice(80, 0, '\n')
+display.splice(120, 0, '\n')
+display.splice(160, 0, '\n')
+display.splice(200, 0, '\n')
 
+console.log(display.join(''))
 console.log(`Elapsed time: ${(performance.now() - start).toPrecision(5)} milliseconds`)
