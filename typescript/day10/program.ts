@@ -1,15 +1,8 @@
 import fs from 'fs'
 
-let contents: string
-try {
-  contents = fs.readFileSync('input.txt', { encoding: 'utf8' })
-} catch (err) {
-  console.log(err)
-  process.exit(1)
-}
+const contents = fs.readFileSync('input.txt', { encoding: 'utf8' })
 
 const start = performance.now()
-
 const significantTimes = [20, 60, 100, 140, 180, 220]
 const recordsPart1: Array<[number, number]> = [[1, 1]]
 let register = 1
@@ -37,14 +30,12 @@ const sumOfSignal = recordsPart1
   }).reduce((sum, current) => sum + current, 0)
 console.log(`Sum of signal strengths at times of interest: ${sumOfSignal}`)
 
-const recordsPart2: boolean[] = recordsPart1.map((record) => record[0] % 40 >= record[1] && record[0] % 40 <= record[1] + 2)
+const recordsPart2: string[] =
+  recordsPart1.map((record) =>
+    record[0] % 40 >= record[1] && record[0] % 40 <= record[1] + 2
+      ? '#'
+      : '.')
+for (let row = 1; row < 6; row++) recordsPart2.splice(40 * row, 0, '\n')
 
-const display: string[] = recordsPart2.map(pixel => pixel ? '#' : '.')
-display.splice(40, 0, '\n')
-display.splice(80, 0, '\n')
-display.splice(120, 0, '\n')
-display.splice(160, 0, '\n')
-display.splice(200, 0, '\n')
-
-console.log(display.join(''))
+console.log(recordsPart2.join(''))
 console.log(`Elapsed time: ${(performance.now() - start).toPrecision(5)} milliseconds`)
