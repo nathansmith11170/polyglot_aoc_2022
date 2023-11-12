@@ -1,0 +1,28 @@
+{
+  "name": "day10",
+  "version": "1.0.0",
+  "description": "AOC 2022 Day 10",
+  "main": "program.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/program.js",
+    "lint": "eslint --ext .js,.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Nathan Smith",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.53.0",
+    "eslint-config-standard-with-typescript": "^39.1.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@types/node": "^20.9.0"
+  }
+}

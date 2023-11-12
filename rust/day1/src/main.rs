@@ -4,8 +4,9 @@ use std::time::SystemTime;
 
 fn sum_strings(lines: &str) -> i64 {
     lines.split("\n")
-        .filter(|str| !str::is_empty(str))
-        .map(|str| str.parse::<i64>().expect("Error parsing {str}"))
+        .filter(|s| !str::is_empty(s))
+        .filter(|s| s.trim().is_empty())
+        .map(|s| s.parse::<i64>().expect("Error parsing {str}"))
         .sum()
 }
 

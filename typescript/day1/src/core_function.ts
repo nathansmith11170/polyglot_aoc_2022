@@ -13,8 +13,7 @@ export function descending(a: number, b: number): number {
 }
 
 export function isNotOnlyWhitespaceOrEmpty(str: string): boolean {
-  if (str.trim().length === 0) return false
-  else return str.length !== 0
+  return str.trim().length === 0 ? false : str.length !== 0
 }
 
 function parseIntRadix10(str: string): number {
